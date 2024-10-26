@@ -14,12 +14,12 @@ fig.suptitle("Ejercicio 1: Distribución Binomial para Diferentes Tamaños de Mu
 
 for i, size in enumerate(sample_sizes):
     sample = binom.rvs(n, p, size=size)
-    
+
     median = np.median(sample)
     mode = statistics.mode(sample)
     mean = np.mean(sample)
     variance = np.var(sample)
-    
+
     data_summary.append({
         "Tamaño de muestra": size,
         "Mediana": median,
@@ -27,11 +27,11 @@ for i, size in enumerate(sample_sizes):
         "Media": mean,
         "Varianza": variance
     })
-    
+
     axs[i, 0].boxplot(sample)
     axs[i, 0].set_title(f"Diagrama de Cajas - Tamaño de Muestra {size}")
     axs[i, 0].set_ylabel("Valores")
-    
+
     axs[i, 1].hist(sample, bins=30, color="skyblue", edgecolor="black")
     axs[i, 1].set_title(f"Histograma - Tamaño de Muestra {size}")
     axs[i, 1].set_xlabel("Valores")
@@ -42,3 +42,17 @@ plt.show()
 
 for summary in data_summary:
     print(summary)
+
+# La media teórica de una distribución binomial es n * p
+# La varianza teórica es n * p * (1 - p)
+mean_theoretical = n * p
+variance_theoretical = n * p * (1 - p)
+
+print(f"\nMedia teórica: {mean_theoretical}")
+print(f"Varianza teórica: {variance_theoretical}\n")
+
+for summary in data_summary:
+    print(f"Tamaño de muestra: {summary['Tamaño de muestra']}")
+    print(f"Media empírica: {summary['Media']} - Diferencia con la teórica: {abs(summary['Media'] - mean_theoretical)}")
+    print(f"Varianza empírica: {summary['Varianza']} - Diferencia con la teórica: {abs(summary['Varianza'] - variance_theoretical)}")
+    print("----------")
